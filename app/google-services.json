@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "700301446555",
+    "project_id": "moneymanagementapp-7e1c8",
+    "storage_bucket": "moneymanagementapp-7e1c8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700301446555:android:09efdc6d6d50f8a720e53e",
+        "android_client_info": {
+          "package_name": "com.yourapp.moneyonred"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYbjHhiiTTnr2Nz-zn-f4hj23y_kAP2MM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

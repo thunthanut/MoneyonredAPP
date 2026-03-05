@@ -8,15 +8,12 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBalance
-import androidx.compose.material.icons.filled.AddCircleOutline
+import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.QrCodeScanner
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Wallet
 import androidx.compose.material3.*
@@ -29,6 +26,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.yourapp.moneyonred.screen.BankScreen
+import com.yourapp.moneyonred.screen.DashBoardScreen
+import com.yourapp.moneyonred.screen.NotiScreen
+import com.yourapp.moneyonred.screen.ProfileScreen
+import com.yourapp.moneyonred.screen.TransferScreen
 import com.yourapp.moneyonred.ui.theme.MONEYONREDTheme
 
 class MainActivity : ComponentActivity() {
@@ -41,27 +43,43 @@ class MainActivity : ComponentActivity() {
                 var selectedItem by remember { mutableIntStateOf(1) }
                 var currentScreen by remember { mutableStateOf("main") }
                 
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = Color.White // มั่นใจว่าพื้นหลังเป็นสีขาว
-                ) {
-                    if (currentScreen == "transfer") {
-                        TransferScreen(onNavigateBack = { currentScreen = "main" })
-                    } else {
-                        when (selectedItem) {
-                            0 -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { 
-                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                    Text("Home Screen")
-                                    Button(onClick = { selectedItem = 1 }) { Text("Go to Bank") }
-                                }
-                            }
-                            1 -> BankScreen(
-                                onNavigate = { selectedItem = it },
-                                onNavigateToTransfer = { currentScreen = "transfer" }
+                Scaffold(
+                    bottomBar = {
+                        if (currentScreen == "main") {
+                            BankBottomNavigation(
+                                selectedItem = selectedItem,
+                                onItemSelected = { selectedItem = it }
                             )
-                            2 -> QrCodeScreen(onNavigate = { selectedItem = it })
-                            3 -> NotiScreen(onNavigate = { selectedItem = it })
-                            4 -> ProfileScreen(onNavigate = { selectedItem = it })
+                        }
+                    }
+                ) { paddingValues ->
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(if (currentScreen == "main") paddingValues else PaddingValues(0.dp)),
+                        color = Color.White
+                    ) {
+                        if (currentScreen == "transfer") {
+                            TransferScreen(onNavigateBack = { currentScreen = "main" })
+                        } else {
+                            when (selectedItem) {
+                                0 -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { 
+                                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Text("Home Screen")
+                                        Button(onClick = { selectedItem = 1 }) { Text("Go to Bank") }
+                                    }
+                                }
+                                1 -> BankScreen(
+                                    onNavigate = { selectedItem = it },
+                                    onNavigateToTransfer = { currentScreen = "transfer" }
+                                )
+                                2 -> DashBoardScreen(
+                                    onNavigate = { selectedItem = it },
+                                    onNavigateBack = { selectedItem = 1 }
+                                )
+                                3 -> NotiScreen(onNavigate = { selectedItem = it })
+                                4 -> ProfileScreen(onNavigate = { selectedItem = it })
+                            }
                         }
                     }
                 }
@@ -233,8 +251,8 @@ fun BankBottomNavigation(selectedItem: Int = 1, onItemSelected: (Int) -> Unit = 
         NavigationBarItem(
             selected = selectedItem == 2,
             onClick = { onItemSelected(2) },
-            icon = { Icon(Icons.Default.QrCodeScanner, contentDescription = "Scan") },
-            label = { Text("Scan", fontSize = 10.sp) },
+            icon = { Icon(Icons.Default.Dashboard, contentDescription = "Dashboard") },
+            label = { Text("Dashboard", fontSize = 10.sp) },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.Red,
                 selectedTextColor = Color.Red,

@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.yourapp.moneyonred"
-    compileSdk = 36 // อัปเดตจาก 35 เป็น 36 ตามที่ Error แนะนำ
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.yourapp.moneyonred"
@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.play.services.wallet)
     implementation(libs.androidx.compose.foundation.layout)
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -55,10 +56,16 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    
+    // Firebase
     implementation(platform("com.google.firebase:firebase-bom:34.9.0"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-firestore")
+    
+    // Coroutines Play Services (สำหรับ .await())
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.9.0")
 
-    // CameraX dependencies
+    // CameraX
     val cameraxVersion = "1.4.1"
     implementation("androidx.camera:camera-camera2:$cameraxVersion")
     implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
@@ -66,4 +73,7 @@ dependencies {
 
     // Accompanist Permissions
     implementation("com.google.accompanist:accompanist-permissions:0.37.3")
+    
+    // jBcrypt
+    implementation("org.mindrot:jbcrypt:0.4")
 }

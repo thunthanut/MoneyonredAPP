@@ -39,22 +39,30 @@ class MainActivity : ComponentActivity() {
             // บังคับให้เป็น Light Theme และปิดสีอัตโนมัติจากระบบเพื่อแก้ปัญหาจอดำ
             MONEYONREDTheme(darkTheme = false, dynamicColor = false) {
                 var selectedItem by remember { mutableIntStateOf(1) }
+                var currentScreen by remember { mutableStateOf("main") }
                 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = Color.White // มั่นใจว่าพื้นหลังเป็นสีขาว
                 ) {
-                    when (selectedItem) {
-                        0 -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { 
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text("Home Screen")
-                                Button(onClick = { selectedItem = 1 }) { Text("Go to Bank") }
+                    if (currentScreen == "transfer") {
+                        TransferScreen(onNavigateBack = { currentScreen = "main" })
+                    } else {
+                        when (selectedItem) {
+                            0 -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { 
+                                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Text("Home Screen")
+                                    Button(onClick = { selectedItem = 1 }) { Text("Go to Bank") }
+                                }
                             }
+                            1 -> BankScreen(
+                                onNavigate = { selectedItem = it },
+                                onNavigateToTransfer = { currentScreen = "transfer" }
+                            )
+                            2 -> QrCodeScreen(onNavigate = { selectedItem = it })
+                            3 -> NotiScreen(onNavigate = { selectedItem = it })
+                            4 -> ProfileScreen(onNavigate = { selectedItem = it })
                         }
-                        1 -> BankScreen(onNavigate = { selectedItem = it })
-                        2 -> QrCodeScreen(onNavigate = { selectedItem = it })
-                        3 -> NotiScreen(onNavigate = { selectedItem = it })
-                        4 -> ProfileScreen(onNavigate = { selectedItem = it })
                     }
                 }
             }
@@ -156,8 +164,11 @@ fun BalanceCard() {
 }
 
 @Composable
-fun BankActionButton(icon: ImageVector, label: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+fun BankActionButton(icon: ImageVector, label: String, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Card(
             modifier = Modifier
                 .size(80.dp)

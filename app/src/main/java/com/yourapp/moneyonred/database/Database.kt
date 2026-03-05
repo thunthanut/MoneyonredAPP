@@ -9,9 +9,17 @@ data class users(
     val passwordHash: String = "",
     val numaccount: String = "",
     val tel: String = "",
-    val birth: Long? = null, // ใช้ Long สำหรับ Timestamp เพื่อความง่ายใน Firestore
+    val birth: String? = null,
     val address: String = "",
     val balance: Double = 0.0
+)
+
+data class goods(
+    val id: String = "",
+    val name: String = "",
+    val price: Double = 0.0,
+    val description: String = "",
+    val category: String = ""
 )
 
 data class pocket(
